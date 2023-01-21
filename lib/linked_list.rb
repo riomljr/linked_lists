@@ -1,26 +1,19 @@
 class Node
   attr_accessor :value, :nextnode
-
   def initialize(value)
     @value = value
     @nextnode = nil
   end
-
 end
 
 class LinkedList < Node
   attr_reader :list
-
   def initialize 
     @list = nil
   end
 
   def append(value)
-    if !@list 
-      @list = Node.new(value)
-    else
-      tail(@list).nextnode = Node.new(value)
-    end
+    !@list ? @list = Node.new(value) : tail(@list).nextnode = Node.new(value)
   end
 
   def prepend(value)
@@ -29,13 +22,9 @@ class LinkedList < Node
     @list = front
   end
 
-  def size
-    count(@list, 0) + 1
-  end
-
-  def count(value, numb)
-    return numb if !value.nextnode
-    count(value.nextnode, numb + 1)
+  def size(value = @list, numb = 0)
+    return numb + 1 if !value.nextnode
+    size(value.nextnode, numb + 1)
   end
 
   def head
@@ -47,14 +36,10 @@ class LinkedList < Node
     tail(value.nextnode)
   end
 
-  def at(index)
-    count_index(@list, 0, index)
-  end
-
-  def count_index(list, start, value)
+  def at(list = @list, start = 0, value)
     return list.value if value == start
     return nil if !list.nextnode 
-    count_index(list.nextnode, start + 1, value)
+    at(list.nextnode, start + 1, value)
   end
 
   def pop(value = @list)
@@ -83,21 +68,14 @@ class LinkedList < Node
     count_through(list.nextnode, start + 1, value)
   end
 
-  
-
-  def to_s
-    count = self.size
+  def to_s(value = @list)
+    print "(#{value.value}) ->" 
+    if !value.nextnode
+      print "nil"
+      return
+    end
+    to_s(value.nextnode)
   end
-
 end
 
-list = LinkedList.new
-list.append(10)
-list.append(20)
-list.append(30)
-list.append(40)
-list.prepend(50)                                     
-list.pop 
-puts ''
-puts ''
- p list
+
