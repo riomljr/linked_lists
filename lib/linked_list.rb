@@ -46,13 +46,22 @@ class LinkedList < Node
   end
 
   def at(index)
+    count_index(@list, 0, index)
+  end
+
+  def count_index(list, start, value)
+    return list.value if value == start
+    return nil if !list.nextnode 
+    count_index(list.nextnode, start + 1, value)
   end
 
   def pop
+    
+  
   end
 
   def contains?(value)
-    cycle_through(@list, value)
+    
   end
 
   def cycle_through(list, value)
@@ -62,10 +71,16 @@ class LinkedList < Node
   end
 
   def find(value)
-    cycle_through(@list, value)
-    #c = @list.nextnode
-    #c.nextnode.value
+    count_through(@list, 0, value)
   end
+
+  def count_through(list, start, value)
+    return start if list.value === value
+    return nil if !list.nextnode 
+    count_through(list.nextnode, start + 1, value)
+  end
+
+  
 
   def to_s
     count = self.size
@@ -79,4 +94,3 @@ list.append(20)
 list.append(30)
 list.append(40)
 
-list.contains?(20)
