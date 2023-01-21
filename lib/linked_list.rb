@@ -24,7 +24,9 @@ class LinkedList < Node
   end
 
   def prepend(value)
-    @list
+    front = Node.new(value)
+    front.nextnode = @list
+    @list = front
   end
 
   def size
@@ -55,13 +57,14 @@ class LinkedList < Node
     count_index(list.nextnode, start + 1, value)
   end
 
-  def pop
-    
-  
+  def pop(value = @list)
+    val = value.nextnode
+    return val.nextnode = nil if val.nextnode.nextnode == nil
+    pop(value.nextnode)
   end
-
+ 
   def contains?(value)
-    
+    cycle_through(@list, value)
   end
 
   def cycle_through(list, value)
@@ -93,4 +96,8 @@ list.append(10)
 list.append(20)
 list.append(30)
 list.append(40)
-
+list.prepend(50)                                     
+list.pop 
+puts ''
+puts ''
+ p list
