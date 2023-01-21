@@ -9,6 +9,8 @@ class Node
 end
 
 class LinkedList < Node
+  attr_reader :list
+
   def initialize 
     @list = nil
   end
@@ -16,19 +18,26 @@ class LinkedList < Node
   def append(value)
     if !@list 
       @list = Node.new(value)
-      @list.value = value
     else
       tail(@list).nextnode = Node.new(value)
     end
   end
 
   def prepend(value)
+    @list
   end
 
   def size
+    count(@list, 0) + 1
+  end
+
+  def count(value, numb)
+    return numb if !value.nextnode
+    count(value.nextnode, numb + 1)
   end
 
   def head
+    @list.value
   end
 
   def tail(value)
@@ -43,18 +52,31 @@ class LinkedList < Node
   end
 
   def contains?(value)
+    cycle_through(@list, value)
+  end
+
+  def cycle_through(list, value)
+    return true if list.value === value
+    return false if !list.nextnode 
+    cycle_through(list.nextnode, value)
   end
 
   def find(value)
+    cycle_through(@list, value)
+    #c = @list.nextnode
+    #c.nextnode.value
   end
 
   def to_s
+    count = self.size
   end
 
 end
 
 list = LinkedList.new
 list.append(10)
-p list
 list.append(20)
-p list
+list.append(30)
+list.append(40)
+
+list.contains?(20)
